@@ -68,29 +68,3 @@ def affine_decode(str, a, b):
 
     str = str.upper()
     return affine_encode(str, a_inverse, -1*a_inverse*b) # Decoding is just encoding with the inverse key
-
-
-## Test Ceaser Cipher
-s = 'This is a test of the Ceaser Cipher!'
-a = 1
-print('The message is: ' + s)
-
-encrypted = ceaser_encode(s, a)
-print('The cyphertext is: ' + encrypted)
-
-decrypted = ceaser_decode(encrypted, a)
-print('The decrypted message is: ' + decrypted)
-
-print('\n-------------------\n')
-
-## Test Affine Cipher
-s = 'Hello World! It is a beautiful day!'
-a = 15
-b = 18
-print('The message is: ' + s)
-
-encrypted = affine_encode(s, a, b)
-print('The cyphertext is: ' + encrypted)
-
-decrypted = affine_decode(encrypted, a, b)
-print('The decrypted message is: ' + decrypted)
