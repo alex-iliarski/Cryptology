@@ -16,10 +16,8 @@ def main():
     decrypted = ciphers.ceaser_decode(encrypted, a)
     print('The decrypted message is: ' + decrypted)
 
-    print('\n-------------------\n')
-
     ## Test Affine Cipher
-    print('Testing Affine Cipher::\n')
+    print('\n-------------------\nTesting Affine Cipher::\n')
     s = 'Hello World! It is a beautiful day!'
     a = 15
     b = 18
@@ -29,6 +27,17 @@ def main():
     print('The cyphertext is: ' + encrypted)
 
     decrypted = ciphers.affine_decode(encrypted, a, b)
+    print('The decrypted message is: ' + decrypted)
+
+    ## Test One Time Pad
+    print('\n-------------------\nTesting One Time Pad::\n')
+    s = 'The One Time Pad is a theoretically unbreakable cipher!'
+    print('The message is: ' + s)
+
+    encrypted, keys = ciphers.one_time_pad_encode(s)
+    print('The cyphertext is: ' + encrypted)
+
+    decrypted = ciphers.one_time_pad_decode(encrypted, keys)
     print('The decrypted message is: ' + decrypted)
 
 main()

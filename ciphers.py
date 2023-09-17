@@ -1,5 +1,5 @@
 # Implementing simple ciphers
-
+import os
 import number_theory as nt
 
 # A = 65 ... Z = 90
@@ -68,3 +68,42 @@ def affine_decode(str, a, b):
 
     str = str.upper()
     return affine_encode(str, a_inverse, -1*a_inverse*b) # Decoding is just encoding with the inverse key
+
+def one_time_pad_encode(str):
+    """
+    :param str: string to encode
+    :param keys: list of keys
+    :return: Pair of encoded string and keys needed to decode the string
+    """
+    str = str.upper()
+    str = "".join(c for c in str if c.isalpha()) # Remove all non-alphabetic characters from string
+    keys = generate_one_time_pad_keys(len(str))
+    encoded = ""
+    for i in range(len(str)):
+        encoded_num = ((ord(str[i]) + keys[i] - A_ASCII) % 26) + A_ASCII
+        encoded += chr(encoded_num)
+    return (split_string(encoded), keys)
+
+def one_time_pad_decode(str, keys):
+    """
+    :param str: string to decode
+    :param keys: list of keys
+    :return: decoded string
+    """
+    str = str.upper()
+    str = "".join(c for c in str if c.isalpha()) # Remove all non-alphabetic characters from string
+    decoded = ""
+    for i in range(len(str)):
+        if(not str[i].isalpha()): # Ignore space, special characters, etc.
+            continue
+
+        decoded_num = ((ord(str[i]) - keys[i] - A_ASCII) % 26) + A_ASCII
+        decoded += chr(decoded_num)
+    return split_string(decoded)
+
+def generate_one_time_pad_keys(length):
+    """
+    :param length: length of key to generate
+    :return: list of keys
+    """
+    return [ord(os.urandom(1)) % 26 for i in range(length)]
