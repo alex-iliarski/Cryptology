@@ -1,4 +1,7 @@
 # Implementing simple ciphers
+
+import number_theory as nt
+
 # A = 65 ... Z = 90
 A_ASCII = 65
 
@@ -20,6 +23,9 @@ def ceaser_encode(str, k):
     str = str.upper()
     encoded = ""
     for c in str:
+        if(not c.isalpha()): # Ignore space, special characters, etc.
+            continue
+
         encoded_num = ((ord(c) + k - A_ASCII) % 26) + A_ASCII
         encoded += chr(encoded_num)
     return split_string(encoded)
@@ -31,11 +37,7 @@ def ceaser_decode(str, k):
     :return: decoded string
     """
     str = str.upper()
-    decoded = ""
-    for c in str:
-        decoded_num = ((ord(c) - k - A_ASCII) % 26) + A_ASCII
-        decoded += chr(decoded_num)
-    return decoded
+    return ceaser_encode(str, -k % 26) # Decoding is just encoding with the inverse key
 
 # Note: the affine cipher only produces usable encodings for a=1,3,5,7,9,11,15,17,19,21,23,25
 def affine_encode(str, a, b):
@@ -47,29 +49,48 @@ def affine_encode(str, a, b):
     str = str.upper()
     encoded = ""
     for c in str:
+        if(not c.isalpha()): # Ignore space, special characters, etc.
+            continue
+
         encoded_num = ((a * (ord(c) - A_ASCII) + b) % 26) + A_ASCII
         encoded += chr(encoded_num)
     return split_string(encoded)
 
-# TODO:: Implement affine_decode correctly
 def affine_decode(str, a, b):
     """
     :param str: string to decode
     :param a: key
     :param b: key
     """
+    a_inverse = nt.multiplicative_inverse(a, 26)
+    if(a_inverse == None):
+        return None
+
     str = str.upper()
-    decoded = ""
-    for c in str:
-        decoded_num = (a * (ord(c) - A_ASCII - b)) % 26 + A_ASCII # TODO:: Incorrect
-        decoded += chr(decoded_num)
-    return decoded
+    return affine_encode(str, a_inverse, -1*a_inverse*b) # Decoding is just encoding with the inverse key
 
 
+## Test Ceaser Cipher
+s = 'This is a test of the Ceaser Cipher!'
+a = 1
+print('The message is: ' + s)
 
-s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-print(ceaser_encode(s, 1))
-print(ceaser_decode(ceaser_encode(s, 1), 1))
+encrypted = ceaser_encode(s, a)
+print('The cyphertext is: ' + encrypted)
 
-print(affine_encode(s, 5, 8))
-print(affine_decode(affine_encode(s, 5, 8), 5, 8))
+decrypted = ceaser_decode(encrypted, a)
+print('The decrypted message is: ' + decrypted)
+
+print('\n-------------------\n')
+
+## Test Affine Cipher
+s = 'Hello World! It is a beautiful day!'
+a = 15
+b = 18
+print('The message is: ' + s)
+
+encrypted = affine_encode(s, a, b)
+print('The cyphertext is: ' + encrypted)
+
+decrypted = affine_decode(encrypted, a, b)
+print('The decrypted message is: ' + decrypted)
