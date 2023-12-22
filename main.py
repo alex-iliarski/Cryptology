@@ -51,7 +51,7 @@ def test_ciphers():
     decrypted = ciphers.general_substitution_decode(encrypted, substitution_map)
     print('The decrypted message is: ' + decrypted)
     
-# Test simple number theory functions
+# Test number theory functions
 def test_number_theory():
     ## Test GCD
     print('\n-------------------\nTesting GCD::\n')
@@ -64,6 +64,7 @@ def test_number_theory():
     a = 2101
     d = 2513
     print('Multiplicative Inverse of ' + str(a) + ' mod ' + str(d) + ' is: ' + str(nt.multiplicative_inverse(a, d))) # expect 1226
+    
     a = 21017
     d = 25139
     print('Multiplicative Inverse of ' + str(a) + ' mod ' + str(d) + ' is: ' + str(nt.multiplicative_inverse(a, d))) # expect 11118
@@ -74,10 +75,25 @@ def test_number_theory():
     exp = 70
     n = 1003
     print(str(x) + '^' + str(exp) + ' mod ' + str(n) + ' is: ' + str(nt.fast_modular_exponentiation(x, exp, n))) # expect 559
+    
     x = 123
     exp = 456
     n = 789
     print(str(x) + '^' + str(exp) + ' mod ' + str(n) + ' is: ' + str(nt.fast_modular_exponentiation(x, exp, n))) # expect 699
+    
+    ## Test Pollard Rho for Integer Factorization
+    print('\n-------------------\nTesting Pollard Rho::\n')
+    n = 13*277 # n is a semiprime number
+    res = nt.pollard_rho(n)
+    nt.test_pollard_rho(n, res)
+    
+    n = 43943*44119 # n is a large semiprime number
+    res = nt.pollard_rho(n)
+    nt.test_pollard_rho(n, res)
+    
+    n = 2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17 # n is a large composite number
+    res = nt.pollard_rho(n)
+    nt.test_pollard_rho(n, res)
     
 if __name__ == "__main__":
     test_ciphers()
