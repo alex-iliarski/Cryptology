@@ -158,3 +158,7 @@ def general_substitution_decode(str, map):
             decoded += c
             
     return split_string(decoded)
+
+
+#TODO: Implement Vigenere Cipher
+#TODO: Implement Hill Cipher

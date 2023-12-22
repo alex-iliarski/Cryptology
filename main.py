@@ -3,7 +3,8 @@
 import ciphers
 import number_theory as nt
 
-def main():
+# Test simple ciphers
+def test_ciphers():
     ## Test Ceaser Cipher
     print('\n-------------------\nTesting Ceaser Cipher::\n')
     s = 'This is a test of the Ceaser Cipher!'
@@ -49,5 +50,35 @@ def main():
     
     decrypted = ciphers.general_substitution_decode(encrypted, substitution_map)
     print('The decrypted message is: ' + decrypted)
-
-main()
+    
+# Test simple number theory functions
+def test_number_theory():
+    ## Test GCD
+    print('\n-------------------\nTesting GCD::\n')
+    a = 123456789
+    b = 987654321
+    print('GCD of ' + str(a) + ' and ' + str(b) + ' is: ' + str(nt.gcd(a, b)))
+    
+    ## Test Multiplicative Inverse
+    print('\n-------------------\nTesting Multiplicative Inverse::\n')
+    a = 2101
+    d = 2513
+    print('Multiplicative Inverse of ' + str(a) + ' mod ' + str(d) + ' is: ' + str(nt.multiplicative_inverse(a, d))) # expect 1226
+    a = 21017
+    d = 25139
+    print('Multiplicative Inverse of ' + str(a) + ' mod ' + str(d) + ' is: ' + str(nt.multiplicative_inverse(a, d))) # expect 11118
+    
+    ## Test Fast Modular Exponentiation
+    print('\n-------------------\nTesting Fast Modular Exponentiation::\n')
+    x = 3
+    exp = 70
+    n = 1003
+    print(str(x) + '^' + str(exp) + ' mod ' + str(n) + ' is: ' + str(nt.fast_modular_exponentiation(x, exp, n))) # expect 559
+    x = 123
+    exp = 456
+    n = 789
+    print(str(x) + '^' + str(exp) + ' mod ' + str(n) + ' is: ' + str(nt.fast_modular_exponentiation(x, exp, n))) # expect 699
+    
+if __name__ == "__main__":
+    test_ciphers()
+    test_number_theory()
