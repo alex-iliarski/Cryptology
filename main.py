@@ -5,7 +5,7 @@ import number_theory as nt
 
 def main():
     ## Test Ceaser Cipher
-    print('\nTesting Ceaser Cipher::\n')
+    print('\n-------------------\nTesting Ceaser Cipher::\n')
     s = 'This is a test of the Ceaser Cipher!'
     a = 1
     print('The message is: ' + s)
@@ -38,6 +38,16 @@ def main():
     print('The cyphertext is: ' + encrypted)
 
     decrypted = ciphers.one_time_pad_decode(encrypted, keys)
+    print('The decrypted message is: ' + decrypted)
+    
+    ## Test General Substitution Cipher
+    print('\n-------------------\nTesting General Substitution Cipher::\n')
+    s = 'Lets test out the General Substitution Cipher!'
+    print('The message is: ' + s)
+    encrypted, substitution_map = ciphers.general_substitution_encode(s)
+    print('The cyphertext is: ' + encrypted)
+    
+    decrypted = ciphers.general_substitution_decode(encrypted, substitution_map)
     print('The decrypted message is: ' + decrypted)
 
 main()

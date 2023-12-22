@@ -107,3 +107,54 @@ def generate_one_time_pad_keys(length):
     :return: list of keys
     """
     return [ord(os.urandom(1)) % 26 for i in range(length)]
+
+# General Substitution Cipher
+def general_substitution_encode(str):
+    """
+    :param str: string to encode
+    :return: Tuple of encoded string and mapping of letters
+    """
+    map = create_substitution_map()
+    str = str.upper()
+    str = "".join(c for c in str if c.isalpha()) # Remove all non-alphabetic characters from string
+    encoded = ""
+    for c in str:
+        encoded += map[c]
+    return (split_string(encoded), map)
+    
+    
+def create_substitution_map():
+    """
+    :return: unique mapping of letters
+    """
+    # Create unique mapping of letters to a new letter with no repeats
+    map = {}
+    letters = [chr(i) for i in range(A_ASCII, A_ASCII + 26)]
+    letters_copy = letters.copy()
+    
+    for c in letters:
+        map[c] = letters_copy.pop(ord(os.urandom(1)) % len(letters_copy))
+    
+    return map
+
+def general_substitution_decode(str, map):
+    """
+    :param str: string to decode
+    :param map: mapping of letters
+    :return: decoded string
+    """
+    str = str.upper()
+    str = "".join(c for c in str if c.isalpha()) # Remove all non-alphabetic characters from string
+    decoded = ""
+    
+    # Create a reverse mapping by swapping keys and values in the map dictionary
+    reverse_map = {v: k for k, v in map.items()}
+    
+    for c in str:
+        if c in reverse_map:
+            decoded += reverse_map[c]
+        else:
+            # If the character is not found in the map, keep it as is
+            decoded += c
+            
+    return split_string(decoded)
